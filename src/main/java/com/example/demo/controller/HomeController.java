@@ -13,6 +13,7 @@ public class HomeController {
     String storageConnectionString = "DefaultEndpointsProtocol=https;AccountName=beckydeniedbrdblob;AccountKey=tDYlBRRfjmv3hEsav138IfJHeOLDbdskdmB6zcvELjaR8kmqFwbQeaFkkiGl/isWo7SxrXmUFYHL+ASty5UCBw==;EndpointSuffix=core.windows.net";
     @GetMapping("/")
     public String home() {
+        String results = "";
         try
         {
             // Retrieve storage account from connection-string.
@@ -25,18 +26,11 @@ public class HomeController {
             // The container name must be lower case
             CloudBlobContainer container = blobClient.getContainerReference("mycontainer");
 
-            // Create the container if it does not exist.
-            final String filePath = "C:\\Users\\228161\\test1.txt";
-            final String filePath1 = "C:\\Users\\228161\\test2.txt";
-
-            // Create or overwrite the "myimage.jpg" blob with contents from a local file.
-            CloudBlockBlob blob = container.getBlockBlobReference("test1.txt");
-            File source = new File(filePath);
-            blob.upload(new FileInputStream(source), source.length());
-
-            CloudBlockBlob blob1 = container.getBlockBlobReference("test2.txt");
-            File source1 = new File(filePath1);
-            blob1.upload(new FileInputStream(source1), source1.length());
+            // Loop over blobs within the container and output the URI to each of them.
+            for (ListBlobItem blobItem : container.listBlobs()) {
+                System.out.println(blobItem.getUri());
+                results += blobItem.toString() + " ";
+   }
         }
         catch (Exception e)
         {
@@ -44,6 +38,6 @@ public class HomeController {
             e.printStackTrace();
         }
 
-        return "files 2 overwritten were added as blobs";
+        return results;
     }
 }
