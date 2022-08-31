@@ -29,7 +29,7 @@ public class HomeController {
             // Loop over blobs within the container and output the URI to each of them.
             for (ListBlobItem blobItem : container.listBlobs()) {
                 System.out.println(blobItem.getUri());
-                results += blobItem.toString() + " ";
+                results += blobItem.getUri();
    }
         }
         catch (Exception e)
