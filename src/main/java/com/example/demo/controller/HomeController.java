@@ -7,6 +7,7 @@ import com.microsoft.azure.storage.blob.*;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 
 @RestController
 public class HomeController {
@@ -28,9 +29,13 @@ public class HomeController {
 
             // Loop over blobs within the container and output the URI to each of them.
             for (ListBlobItem blobItem : container.listBlobs()) {
-                System.out.println(blobItem.getUri());
-                results += blobItem.getUri();
-   }
+                // If the item is a blob, not a virtual directory.
+                if (blobItem instanceof CloudBlob) {
+                    // Download the item and save it to a file with the same name.
+                    CloudBlob blob = (CloudBlob) blobItem;
+                    blob.download(new FileOutputStream("C:\\mydownloads\\" + blob.getName()));
+                }
+            }
         }
         catch (Exception e)
         {
@@ -38,6 +43,6 @@ public class HomeController {
             e.printStackTrace();
         }
 
-        return results;
+        return "blobs have been saved to C://mydownloads";
     }
 }
