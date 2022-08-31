@@ -26,7 +26,7 @@ public class HomeController {
             CloudBlobContainer container = blobClient.getContainerReference("mycontainer");
 
             // Create the container if it does not exist.
-            final String filePath = "C:\\Users\\228161\\OneDrive - American Airlines, Inc\\Desktop\\test1.txt";
+            final String filePath = "C:/Users/228161/OneDrive - American Airlines, Inc/Desktop/test1.txt";
             final String filePath1 = "C:\\Users\\228161\\OneDrive - American Airlines, Inc\\Desktop\\test2.txt";
 
             // Create or overwrite the "myimage.jpg" blob with contents from a local file.
