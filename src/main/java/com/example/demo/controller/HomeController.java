@@ -8,6 +8,7 @@ import com.microsoft.azure.storage.blob.*;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.nio.file.Paths;
 
 @RestController
 public class HomeController {
@@ -33,7 +34,7 @@ public class HomeController {
                 if (blobItem instanceof CloudBlob) {
                     // Download the item and save it to a file with the same name.
                     CloudBlob blob = (CloudBlob) blobItem;
-                    blob.download(new FileOutputStream("C:\\mydownloads\\" + blob.getName()));
+                    blob.download(new FileOutputStream(Paths.get("C:/mydownloads/") + blob.getName()));
                 }
             }
         }
