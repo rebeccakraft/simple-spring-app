@@ -26,8 +26,8 @@ public class HomeController {
             CloudBlobContainer container = blobClient.getContainerReference("mycontainer");
 
             // Create the container if it does not exist.
-            final String filePath = "C:/Users/228161/OneDrive - American Airlines, Inc/Desktop/test1.txt";
-            final String filePath1 = "C:\\Users\\228161\\OneDrive - American Airlines, Inc\\Desktop\\test2.txt";
+            final String filePath = "C:\\Users\\228161\\test1.txt";
+            final String filePath1 = "C:\\Users\\228161\\test2.txt";
 
             // Create or overwrite the "myimage.jpg" blob with contents from a local file.
             CloudBlockBlob blob = container.getBlockBlobReference("test1.txt");
@@ -44,6 +44,6 @@ public class HomeController {
             e.printStackTrace();
         }
 
-        return "files were added as blobs";
+        return "files 2 were added as blobs";
     }
 }
