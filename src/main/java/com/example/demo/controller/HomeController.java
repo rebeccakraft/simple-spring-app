@@ -44,6 +44,6 @@ public class HomeController {
             e.printStackTrace();
         }
 
-        return "files 2 were added as blobs";
+        return "files 2 overwritten were added as blobs";
     }
 }
