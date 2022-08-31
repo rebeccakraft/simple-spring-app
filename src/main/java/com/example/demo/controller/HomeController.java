@@ -14,7 +14,7 @@ public class HomeController {
     String storageConnectionString = "DefaultEndpointsProtocol=https;AccountName=beckydeniedbrdblob;AccountKey=tDYlBRRfjmv3hEsav138IfJHeOLDbdskdmB6zcvELjaR8kmqFwbQeaFkkiGl/isWo7SxrXmUFYHL+ASty5UCBw==;EndpointSuffix=core.windows.net";
     @GetMapping("/")
     public String home() {
-        String results = "";
+        String results = "blobs have been saved to C://mydownloads test";
         try
         {
             // Retrieve storage account from connection-string.
@@ -39,10 +39,10 @@ public class HomeController {
         }
         catch (Exception e)
         {
-            // Output the stack trace.
+            results = e.getMessage();
             e.printStackTrace();
         }
 
-        return "blobs have been saved to C://mydownloads test";
+        return results;
     }
 }
