@@ -34,7 +34,7 @@ public class HomeController {
                 if (blobItem instanceof CloudBlob) {
                     // Download the item and save it to a file with the same name.
                     CloudBlob blob = (CloudBlob) blobItem;
-                    blob.downloadToFile("C:\\mydownloads\\" + blob.getName());
+                   blob.downloadToFile("/tmp/beckyFiles.txt");
                 }
             }
         }
