@@ -17,6 +17,7 @@ public class HomeController {
     @GetMapping("/")
     public String home() {
         String results = "blobs have been saved to C://mydownloads test";
+        Date lastModified = new Date();
         try
         {
             // Retrieve storage account from connection-string.
@@ -30,8 +31,7 @@ public class HomeController {
             CloudBlobContainer container = blobClient.getContainerReference("mycontainer");
 
             BlobContainerProperties proper = container.getProperties();
-            Date lastModified = proper.getLastModified();
-            results = lastModified.toString();
+            lastModified = proper.getLastModified();
             // Loop over blobs within the container and output the URI to each of them.
 //            for (ListBlobItem blobItem : container.listBlobs()) {
 //                // If the item is a blob, not a virtual directory.
@@ -44,6 +44,6 @@ public class HomeController {
             e.printStackTrace();
         }
 
-        return results;
+        return lastModified.toString();
     }
 }
