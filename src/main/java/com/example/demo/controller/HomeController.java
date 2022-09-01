@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.file.Paths;
+import java.util.Date;
 
 @RestController
 public class HomeController {
@@ -28,14 +29,13 @@ public class HomeController {
             // The container name must be lower case
             CloudBlobContainer container = blobClient.getContainerReference("mycontainer");
 
+            BlobContainerProperties proper = container.getProperties();
+            Date lastModified = proper.getLastModified();
+            results = lastModified.toString();
             // Loop over blobs within the container and output the URI to each of them.
             for (ListBlobItem blobItem : container.listBlobs()) {
                 // If the item is a blob, not a virtual directory.
-                if (blobItem instanceof CloudBlob) {
-                    // Download the item and save it to a file with the same name.
-                    CloudBlob blob = (CloudBlob) blobItem;
-                   blob.downloadToFile("/tmp/beckyFiles/" + blob.getName());
-                }
+
             }
         }
         catch (Exception e)
