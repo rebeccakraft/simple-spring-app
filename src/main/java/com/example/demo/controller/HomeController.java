@@ -29,14 +29,14 @@ public class HomeController {
             // Get a reference to a container.
             // The container name must be lower case
             CloudBlobContainer container = blobClient.getContainerReference("mycontainer");
-
+            BlobContainerProperties properties = container.getProperties();
+            System.out.println((properties.getLastModified()));
            // BlobContainerProperties proper = container.getProperties();
           //  lastModified = proper.getLastModified();
             // Loop over blobs within the container and output the URI to each of them.
-            for (ListBlobItem blobItem : container.listBlobs()) {
-                // If the item is a blob, not a virtual directory.
-                results += blobItem.getUri() + " ";
-            }
+//            for (ListBlobItem blobItem : container.listBlobs()) {
+//
+//            }
         }
         catch (Exception e)
         {
