@@ -33,10 +33,10 @@ public class HomeController {
             Date lastModified = proper.getLastModified();
             results = lastModified.toString();
             // Loop over blobs within the container and output the URI to each of them.
-            for (ListBlobItem blobItem : container.listBlobs()) {
-                // If the item is a blob, not a virtual directory.
-
-            }
+//            for (ListBlobItem blobItem : container.listBlobs()) {
+//                // If the item is a blob, not a virtual directory.
+//
+//            }
         }
         catch (Exception e)
         {
