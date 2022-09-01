@@ -30,13 +30,13 @@ public class HomeController {
             // The container name must be lower case
             CloudBlobContainer container = blobClient.getContainerReference("mycontainer");
 
-            BlobContainerProperties proper = container.getProperties();
-            lastModified = proper.getLastModified();
+           // BlobContainerProperties proper = container.getProperties();
+          //  lastModified = proper.getLastModified();
             // Loop over blobs within the container and output the URI to each of them.
-//            for (ListBlobItem blobItem : container.listBlobs()) {
-//                // If the item is a blob, not a virtual directory.
-//
-//            }
+            for (ListBlobItem blobItem : container.listBlobs()) {
+                // If the item is a blob, not a virtual directory.
+                results += blobItem.getUri() + " ";
+            }
         }
         catch (Exception e)
         {
@@ -44,6 +44,6 @@ public class HomeController {
             e.printStackTrace();
         }
 
-        return lastModified.toString();
+        return results;
     }
 }
