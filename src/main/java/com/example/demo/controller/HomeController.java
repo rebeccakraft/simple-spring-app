@@ -28,8 +28,8 @@ public class HomeController {
             // The container name must be lower case
             CloudBlobContainer container = blobClient.getContainerReference("mycontainer");
             // Loop over blobs within the container and output the URI to each of them.
-            String outputDestination = "/tmp/";
-            downloadBlobs(container, outputDestination);
+
+            readLatestObject(container);
 
         }
         catch (Exception e)
@@ -41,33 +41,26 @@ public class HomeController {
     }
 
 
-    private void downloadBlobs(CloudBlobContainer container, String outputDestination)  {
-        try {
-            for (ListBlobItem blobItem : container.listBlobs()) {
-                // If the item is a blob, not a virtual directory.
-                if (blobItem instanceof CloudBlob) {
-                    // Download the item and save it to a file with the same name.
-                    CloudBlob blob = (CloudBlob) blobItem;
-                    blob.downloadToFile(outputDestination + blob.getName());
-                    //sorting algo goes here
-                }
-            }
-        }
+    private boolean downloadBlobs(CloudBlob blob, String outputDestination)  {
+        try { blob.downloadToFile(outputDestination + blob.getName());}
+
         catch(FileNotFoundException ex){
             System.out.println("File not found: " + outputDestination);
             System.out.println(ex);
+            return false;
         } catch(StorageException | IOException ex){
             System.out.println("Could not save file: "+ outputDestination);
             System.out.println(ex);
+            return false;
         }
-
+        return true;
     }
-    public void readLatestObject(CloudBlobContainer container){
+    public readLatestObject(CloudBlobContainer container){
         LocalDate earlier = LocalDate.now().minusDays(DATA_PURGE_DAYS);
         try {
             String earliest = "";
             String newest = "";
-
+            String outputDestination = "/tmp/";
             //this for loop gets name of newest and earliest blob
             for (ListBlobItem blobItem : container.listBlobs()) {
                 // If the item is a blob, not a virtual directory.
@@ -93,11 +86,12 @@ public class HomeController {
             }
 
             //then check if latest is the same as previous latest
-
+            downloadBlobs(blobToDownload, outputDestination);
 
 
         }catch (Exception ex ) {
             System.out.println("Failed to retrieve data file:"+ ex);
+
         }
     }
 }
