@@ -15,9 +15,9 @@ import java.util.Date;
 public class HomeController {
     String storageConnectionString = "DefaultEndpointsProtocol=https;AccountName=beckydeniedbrdblob;AccountKey=tDYlBRRfjmv3hEsav138IfJHeOLDbdskdmB6zcvELjaR8kmqFwbQeaFkkiGl/isWo7SxrXmUFYHL+ASty5UCBw==;EndpointSuffix=core.windows.net";
     private static final int DATA_PURGE_DAYS = 3;
+    String results = " ";
     @GetMapping("/")
     public String home() {
-        String results = "blobs have been saved to C://mydownloads test";
         try
         {
             // Retrieve storage account from connection-string.
@@ -34,7 +34,7 @@ public class HomeController {
         }
         catch (Exception e)
         {
-            results = e.getMessage();
+            results += e.getMessage();
             e.printStackTrace();
         }
         return results;
@@ -45,10 +45,12 @@ public class HomeController {
         try { blob.downloadToFile(outputDestination + blob.getName());}
 
         catch(FileNotFoundException ex){
+            results+= "File not found exception";
             System.out.println("File not found: " + outputDestination);
             System.out.println(ex);
             return false;
         } catch(StorageException | IOException ex){
+            results+= "Storage IO found exception";
             System.out.println("Could not save file: "+ outputDestination);
             System.out.println(ex);
             return false;
@@ -81,13 +83,14 @@ public class HomeController {
             CloudBlockBlob blobToDownload = container.getBlockBlobReference(newest);
 
             if(blobToDelete.getProperties().getLastModified().before(Date.from(earlier.atStartOfDay(ZoneId.systemDefault()).toInstant()))){
+                results += "  removing blob ";
                 System.out.println("Removing " + earliest + " which is earlier than "+ earlier);
                 blobToDelete.deleteIfExists();
             }
 
             //then check if latest is the same as previous latest
-            downloadBlobs(blobToDownload, outputDestination);
-
+            boolean rc = downloadBlobs(blobToDownload, outputDestination);
+            results += " downloaded the blob";
 
         }catch (Exception ex ) {
             System.out.println("Failed to retrieve data file:"+ ex);
