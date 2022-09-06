@@ -32,6 +32,7 @@ public class HomeController {
                     // Download the item and save it to a file with the same name.
                     CloudBlob blob = (CloudBlob) blobItem;
                     results += blob.getProperties().getCreatedTime().toString();
+                    //sorting algo goes here
                 }
             }
         }
