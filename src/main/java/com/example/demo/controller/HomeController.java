@@ -55,7 +55,7 @@ public class HomeController {
         }
         return true;
     }
-    public readLatestObject(CloudBlobContainer container){
+    public void readLatestObject(CloudBlobContainer container){
         LocalDate earlier = LocalDate.now().minusDays(DATA_PURGE_DAYS);
         try {
             String earliest = "";
