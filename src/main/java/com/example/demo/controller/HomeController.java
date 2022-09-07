@@ -16,7 +16,7 @@ public class HomeController {
     String storageConnectionString = "DefaultEndpointsProtocol=https;AccountName=beckydeniedbrdblob;AccountKey=tDYlBRRfjmv3hEsav138IfJHeOLDbdskdmB6zcvELjaR8kmqFwbQeaFkkiGl/isWo7SxrXmUFYHL+ASty5UCBw==;EndpointSuffix=core.windows.net";
     private static final int DATA_PURGE_DAYS = 3;
     String results = " ";
-    private String prefix = "test";
+    private String filenamePrefix = "test";
 
     @GetMapping("/")
     public String home() {
@@ -65,7 +65,7 @@ public class HomeController {
             String outputDestination = "/tmp/";
             Date newer= Date.from(LocalDate.now().minusYears(2).atStartOfDay(ZoneId.systemDefault()).toInstant());
             //this for loop gets name of newest blob
-            for (ListBlobItem blobItem : container.listBlobs(prefix, true)) {
+            for (ListBlobItem blobItem : container.listBlobs(filenamePrefix, true)) {
                 if (blobItem instanceof CloudBlob) {
                     // Download the item and save it to a file with the same name.
                     System.out.println(((CloudBlob) blobItem).getName());
