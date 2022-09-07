@@ -16,6 +16,8 @@ public class HomeController {
     String storageConnectionString = "DefaultEndpointsProtocol=https;AccountName=beckydeniedbrdblob;AccountKey=tDYlBRRfjmv3hEsav138IfJHeOLDbdskdmB6zcvELjaR8kmqFwbQeaFkkiGl/isWo7SxrXmUFYHL+ASty5UCBw==;EndpointSuffix=core.windows.net";
     private static final int DATA_PURGE_DAYS = 3;
     String results = " ";
+    private String prefix = "test";
+
     @GetMapping("/")
     public String home() {
         try
@@ -59,47 +61,30 @@ public class HomeController {
     }
     public void readLatestObject(CloudBlobContainer container){
         try {
-            String earliest = "";
             String newest = "";
             String outputDestination = "/tmp/";
-            Date early = Date.from(LocalDate.now().plusDays(3).atStartOfDay(ZoneId.systemDefault()).toInstant());
             Date newer= Date.from(LocalDate.now().minusYears(2).atStartOfDay(ZoneId.systemDefault()).toInstant());
-            //this for loop gets name of newest and earliest blob
-            for (ListBlobItem blobItem : container.listBlobs()) {
-                // If the item is a blob, not a virtual directory.
+            //this for loop gets name of newest blob
+            for (ListBlobItem blobItem : container.listBlobs(prefix, true)) {
                 if (blobItem instanceof CloudBlob) {
                     // Download the item and save it to a file with the same name.
+                    System.out.println(((CloudBlob) blobItem).getName());
                     CloudBlob blob = (CloudBlob) blobItem;
-                    //if blob is earlier than all others, it is earliest
-                    if(blob.getProperties().getLastModified().before(early)) {
-                        earliest = blob.getName();
-                        early = blob.getProperties().getLastModified();
-                        System.out.println(earliest + " is earliest");
-                    }
-                    //if blob is newer than other, it is newest
                     if(blob.getProperties().getLastModified().after(newer)) {
                         newest = blob.getName();
                         newer = blob.getProperties().getLastModified();
-                        System.out.println(newest + " is newest");
                     }
                 }
             }
-            CloudBlockBlob blobToDelete = container.getBlockBlobReference(earliest);
-            System.out.println("got earliest");
+
             CloudBlockBlob blobToDownload = container.getBlockBlobReference(newest);
             System.out.println("got newest");
 
-            if(blobToDelete.exists()){
+            if(blobToDownload.exists()){
                 System.out.println("Blob exists");
             }
             else{
                 System.out.println("blob doesnt exist");
-            }
-
-            if(blobToDelete.getProperties().getLastModified().before(Date.from(LocalDate.now().minusDays(DATA_PURGE_DAYS).atStartOfDay(ZoneId.systemDefault()).toInstant()))){
-                results += "  removing blob ";
-                System.out.println("Removing " + earliest + " which is earlier than  3 days from now");
-                blobToDelete.deleteIfExists();
             }
 
             //then check if latest is the same as previous latest
