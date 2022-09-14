@@ -15,6 +15,7 @@ import java.util.Date;
 @RestController
 public class HomeController {
     String storageConnectionString = System.getenv("connectionString");
+    String containerName = System.getenv("containerName");
     private static final int DATA_PURGE_DAYS = 3;
     String results = " ";
     private String filenamePrefix = "test";
@@ -23,14 +24,13 @@ public class HomeController {
     public String home() {
         try
         {
-            results+= storageConnectionString;
             // Retrieve storage account from connection-string.
             CloudStorageAccount storageAccount = CloudStorageAccount.parse(storageConnectionString);
             // Create the blob client.
             CloudBlobClient blobClient = storageAccount.createCloudBlobClient();
             // Get a reference to a container.
             // The container name must be lower case
-            CloudBlobContainer container = blobClient.getContainerReference("mycontainer");
+            CloudBlobContainer container = blobClient.getContainerReference(containerName);
             // Loop over blobs within the container and output the URI to each of them.
 
             readLatestObject(container);
