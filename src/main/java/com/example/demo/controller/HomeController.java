@@ -13,7 +13,7 @@ import java.util.Date;
 
 @RestController
 public class HomeController {
-    String storageConnectionString = "DefaultEndpointsProtocol=https;AccountName=beckydeniedbrdblob;AccountKey=tDYlBRRfjmv3hEsav138IfJHeOLDbdskdmB6zcvELjaR8kmqFwbQeaFkkiGl/isWo7SxrXmUFYHL+ASty5UCBw==;EndpointSuffix=core.windows.net";
+    String storageConnectionString = '{{secrets.AZUREKEY}}';
     private static final int DATA_PURGE_DAYS = 3;
     String results = " ";
     private String filenamePrefix = "test";
