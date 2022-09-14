@@ -13,7 +13,7 @@ import java.util.Date;
 
 @RestController
 public class HomeController {
-    String storageConnectionString = ${{secrets.AZUREKEY}};
+    String storageConnectionString = System.getenv("connectionString");
     private static final int DATA_PURGE_DAYS = 3;
     String results = " ";
     private String filenamePrefix = "test";
