@@ -7,6 +7,7 @@ import com.microsoft.azure.storage.blob.*;
 
 import java.io.*;
 import java.nio.file.Paths;
+import java.sql.SQLOutput;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
@@ -22,6 +23,7 @@ public class HomeController {
     public String home() {
         try
         {
+            System.out.println(storageConnectionString);
             // Retrieve storage account from connection-string.
             CloudStorageAccount storageAccount = CloudStorageAccount.parse(storageConnectionString);
             // Create the blob client.
@@ -89,7 +91,7 @@ public class HomeController {
 
             //then check if latest is the same as previous latest
             boolean rc = downloadBlobs(blobToDownload, outputDestination);
-            results += " downloaded the blob";
+            if (rc) results += " downloaded the blob to "+ outputDestination;
 
         }catch (Exception ex ) {
             System.out.println("Failed to retrieve data file:"+ ex);
