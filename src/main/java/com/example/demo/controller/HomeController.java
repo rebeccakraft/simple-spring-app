@@ -23,7 +23,7 @@ public class HomeController {
     public String home() {
         try
         {
-            System.out.println(storageConnectionString);
+            results+= storageConnectionString;
             // Retrieve storage account from connection-string.
             CloudStorageAccount storageAccount = CloudStorageAccount.parse(storageConnectionString);
             // Create the blob client.
