@@ -20,7 +20,7 @@ jobs:
       with:
        app-name: 'jasons-spring-app1'
        slot-name: 'Production'
-       general-settings-json: '{"connectionString": "${{ secrets.AZUREKEY }}' #'General configuration settings as Key Value pairs'
+       general-settings-json: '{"env.connectionString": "${{secrets.AZUREKEY }}' #'General configuration settings as Key Value pairs'
  
     - name: Set up Java version
       uses: actions/setup-java@v1
